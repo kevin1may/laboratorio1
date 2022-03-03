@@ -1,1 +1,74 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+ 
+void entradacreateFile( string fichero, string unString ){   //creamos la funcion y un segundo dato string que escrbiremos en el archivo inicial 
+    ofstream fileOut ( fichero.c_str());
+    fileOut << unString << endl;
+    fileOut.close();
+}
 
+void salidacreateFile( string fichero , string unString  ){   //creamos la funcion y un segundo dato string que escrbiremos en el archivo inicial 
+    ofstream fileOut ( fichero.c_str());
+    fileOut << unString   << endl;
+    fileOut.close();
+}
+ 
+void add( string fichero, string unString ){
+    fstream fileAdd;
+    fileAdd.open( fichero.c_str(), ios::app);
+    fileAdd << unString << endl;
+    fileAdd.close();
+}
+ 
+//3ª opcion escribe y lee a la vez
+void fio( string nombreFichero, string unString = "" ){
+    //Creo un fichero tanto para leer como para escribir. Si ya existe el fichero solo añade mas informacion al fichero existente.
+    
+    fstream fichero ( nombreFichero.c_str(), fstream::in | fstream::out | fstream::app );
+ 
+    if ( unString == "" ) {
+        while ( getline( fichero, unString ) ) {
+            cout << unString << endl;
+ 
+        }
+    }else if ( unString != "" ){
+        fichero << unString << endl;
+    }
+    fichero.close();
+}
+ 
+int main (){
+    //crea el fichero 1 ENTRADA DE TEXTO
+    entradacreateFile("ENTRADA.txt", "Palindroma");  // 
+    cout << endl << endl;
+    //crea el fichero 2 SALIDA DE TEXTO
+    salidacreateFile("SALIDA.txt", " ");  // 
+    cout << endl << endl;
+    
+    //la funcion fio() tiene ambas funciones... 
+	//Lectura y escritura.
+    //si la llamamos sin pasar un segundo argumento 
+	//va leer lo que haya escrito en el fichero
+    cout << "LA PALABRA INICIAL EN EL ARCHIVO ENTRADA.TXT ES: " <<endl;
+    fio("ENTRADA.txt");
+    cout << endl << endl;
+    
+    
+    
+    //utilizamos un ciclo para leer el archivo inicial entrada.txt para copiar su contenido en una variable 
+    //y asi poder escribirlo en el archivo 2 que se llama salida.txt
+    std::ifstream file("ENTRADA.txt");
+    std::string linea; 
+    while (std::getline(file, linea))
+    {
+        fio("SALIDA.txt", linea);
+        cout << "LA PALABRA PALINDROMO NO SE LEE IGUAL PERO LA HEMOS COPIADO AL ARCHIVO SALIDA: " <<endl;
+    	cout << endl << endl;
+  	    	
+    }
+ 
+ 
+    cin.ignore();
+    return 0;
+}
